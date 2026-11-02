@@ -133,5 +133,19 @@ namespace BMW_Car_Showroom.Cars
             return false;
         }
 
+        public List<CarsModel> SearchByPriceRange(float minPrice, float maxPrice)
+         {
+           List<CarsModel> result = new List<CarsModel>();
+
+          foreach (CarsModel car in repo.GetCarsFromFile())
+          {
+            if (car.Price >= minPrice && car.Price <= maxPrice)
+          {
+            result.Add(car);
+         }
+        }
+        return result;
+        }
+
     }
 }

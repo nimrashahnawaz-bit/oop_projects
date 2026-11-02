@@ -12,18 +12,18 @@ namespace BMW_Car_Showroom.Cars
 {
     internal class CarsUI
     {
-          
-            private readonly CarsService service;
-            private readonly SalesUI salesUI;
-            private FeedbackUI feedbackUI;
-            private TestDriveUI testDriveUI;
+
+        private readonly CarsService service;
+        private readonly SalesUI salesUI;
+        private FeedbackUI feedbackUI;
+        private TestDriveUI testDriveUI;
 
         public CarsUI()
-            {
-                service = new CarsService();
-                salesUI = new SalesUI();
-                feedbackUI = new FeedbackUI();
-                testDriveUI = new TestDriveUI();
+        {
+            service = new CarsService();
+            salesUI = new SalesUI();
+            feedbackUI = new FeedbackUI();
+            testDriveUI = new TestDriveUI();
         }
 
         // for sales team Menu
@@ -70,9 +70,9 @@ namespace BMW_Car_Showroom.Cars
                 {
                     feedbackUI.ViewAllFeedback();
                 }
-                else if (option == "10") 
+                else if (option == "10")
                 {
-                    testDriveUI.ShowAllBookings(); 
+                    testDriveUI.ShowAllBookings();
                 }
                 else if (option == "11")
                 {
@@ -94,7 +94,7 @@ namespace BMW_Car_Showroom.Cars
             Console.WriteLine("4. Update Stock");
             Console.WriteLine("5. Delete Car");
             Console.WriteLine("6. Low Stock Alert");
-            Console.WriteLine("7. View Sales Report");     
+            Console.WriteLine("7. View Sales Report");
             Console.WriteLine("8. Profit Calculator");
             Console.WriteLine("9. View FeedBack");
             Console.WriteLine("10. View Test Drive Bookings");
@@ -189,7 +189,7 @@ namespace BMW_Car_Showroom.Cars
             {
                 Console.Clear();
                 string option = CarCustomerMenu();
-               if (option == "1")
+                if (option == "1")
                 {
                     DisplayAll();
                 }
@@ -201,19 +201,23 @@ namespace BMW_Car_Showroom.Cars
                 {
                     SearchCarByBudget();
                 }
-                else if (option == "4") 
+                else if (option == "4")
                 {
-                    salesUI.BookCar(); 
+                    salesUI.BookCar();
                 }
-                else if (option == "5") 
-                { 
-                    feedbackUI.GiveFeedback(); 
-                }
-                else if (option == "6") 
+                else if (option == "5")
                 {
-                    testDriveUI.BookTestDrive(); 
+                    feedbackUI.GiveFeedback();
+                }
+                else if (option == "6")
+                {
+                    testDriveUI.BookTestDrive();
                 }
                 else if (option == "7")
+                {
+                    SearchByPriceRangeUI();
+                }
+                else if (option == "8")
                 {
                     break;
                 }
@@ -232,8 +236,10 @@ namespace BMW_Car_Showroom.Cars
             Console.WriteLine("4. Book a Car");
             Console.WriteLine("5. Give Your FeedBack");
             Console.WriteLine("6. Book a Test Drive");
+            Console.WriteLine("7. Search by Price Range(Lab)");
+
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("7. EXIT TO MAIN");
+            Console.WriteLine("8. EXIT TO MAIN");
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Choice one of the above options: ");
             string option = Console.ReadLine();
@@ -273,12 +279,39 @@ namespace BMW_Car_Showroom.Cars
             {
                 foreach (CarsModel car in foundCars)
                 {
-                    Console.WriteLine(car.ToString()); 
+                    Console.WriteLine(car.ToString());
                 }
             }
             Console.ReadKey();
         }
 
-        
+        // lab 
+
+        public void SearchByPriceRangeUI()
+        {
+            Console.Write("Enter Minimum Budget: ");
+            float min = float.Parse(Console.ReadLine());
+
+            Console.Write("Enter Maximum Budget: ");
+            float max = float.Parse(Console.ReadLine());
+
+
+            List<CarsModel> foundCars = service.SearchByPriceRange(min, max);
+
+            if (foundCars.Count == 0)
+            {
+                Console.WriteLine("No cars found in this range.");
+            }
+            else
+            {
+                foreach (CarsModel car in foundCars)
+                {
+                    Console.WriteLine(car.ToString());
+                }
+
+                Console.ReadKey();
+            }
+
+        }
     }
 }

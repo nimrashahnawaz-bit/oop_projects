@@ -1,11 +1,14 @@
 ﻿using BMW_Car_Showroom.Cars;
 using BMW_Car_Showroom.Models;
 using BMW_Car_Showroom.Repo;
+using BMW_Car_Showroom.Sales;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace BMW_Car_Showroom.Sales
 {
@@ -75,6 +78,66 @@ namespace BMW_Car_Showroom.Sales
             if (revenue == 0) return 0; // Prevent divide by zero
 
             return (GetTotalProfit() / revenue) * 100;
+        }
+
+        // code for numeric range
+        public List<SalesModel> SearchByPriceRange(float minPrice, float maxPrice)
+        {
+            List<SalesModel> result = new List<SalesModel>();
+
+            foreach (SalesModel s in salesRepo.GetSalesFromFile())
+            {
+                if (s.Amount >= minPrice && s.Amount <= maxPrice)
+                {
+                    result.Add(s);
+                }
+            }
+            return result;
+        }
+
+        //category Search
+        public void SearchByCategory(string name)
+        {
+            if (name == "Customer" || name == "customer")
+            {
+                //logic for customer search
+                SearchByCustomerName(name);
+            }
+            
+            if(name == "car" || name == "Car")
+            {
+                // logic for car search
+                SearchByCarName(name);
+            }
+            
+        }
+
+        //customer name searching
+        public List<SalesModel> SearchByCustomerName(string n)
+        {
+            List<SalesModel> result = new List<SalesModel>();
+            foreach (SalesModel c in salesRepo.GetSalesFromFile())
+            {
+                if (c.CustomerName == n)
+                {
+                    result.Add(c);
+                }
+            }
+            return result;
+        }
+
+        // carname searching
+        public List<SalesModel> SearchByCarName(string n)
+        {
+            List<SalesModel> result = new List<SalesModel>();
+            foreach (SalesModel c in salesRepo.GetSalesFromFile())
+            {
+                if (c.CarName == n)
+                {
+                    result.Add(c);
+                }
+            }
+            return result;
         }
 
     }
